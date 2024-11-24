@@ -1,0 +1,43 @@
+{
+  "name": "backend",
+  "version": "2.1.1",
+  "description": "Backend Manager Z",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"tsc -d -w -p tsconfig.json\" \"nodemon --no-warnings dist/index.js\" ",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/hashids": "^2.0.1",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/md5": "^2.3.5",
+    "@types/node": "^22.9.1",
+    "@types/nodemailer": "^6.4.17",
+    "concurrently": "^9.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "extensionless": "^1.9.9",
+    "hashids": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "md5": "^2.3.0",
+    "mysql2": "^3.11.3",
+    "nanoid": "^5.0.7",
+    "nodemailer": "^6.9.16",
+    "nodemon": "^3.1.6",
+    "uuid": "^10.0.0",
+    "winston": "^3.17.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
