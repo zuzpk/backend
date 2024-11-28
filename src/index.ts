@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express"
 import de from "dotenv"
 import cors from "cors"
+import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import http from "http"
 import WebSocket, { WebSocketServer } from "ws"
@@ -18,7 +19,8 @@ const app = express();
 app.use(
     cors(), 
     cookieParser(), 
-    express.json(),
+    bodyParser.json(),
+    bodyParser.urlencoded({ extended: true }),
     withAccessLogger
 )
 

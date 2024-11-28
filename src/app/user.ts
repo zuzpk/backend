@@ -1,10 +1,11 @@
-import { ADMIN_EMAIL, APP_NAME, APP_URL, SESS_DURATION, SESS_KEYS, SESS_PREFIX, TBL_USERS } from "../config";
+import { ADMIN_EMAIL, APP_NAME, APP_URL, SESS_DURATION, SESS_KEYS, SESS_PREFIX } from "../config";
 import { Decode, Encode, fromHash, headers, numberInRange, sendMail, toHash, urldecode } from "../lib/core";
 import type { Request, Response } from "express";
 import DB from "../lib/db";
 import { Logger } from "../lib/logger";
 import { dynamicObject } from "../lib/types";
 import jwt from "jsonwebtoken";
+import { DBResult } from "../lib/types";
 
 const uname = (u: dynamicObject) => u.fullname == `none` ? u.email.split(`@`)[0] : u.fullname
 
@@ -22,7 +23,7 @@ const youser = async (u: dynamicObject, cc?: string) => {
 
 }
 
-export const withSession = async (req, resp, raw = true) => {
+export const withSession = async (req: Request, resp: Response, raw = true): Promise<dynamicObject> => {
 
     return new Promise((resolve, reject) => {
         
@@ -85,13 +86,13 @@ export const withSession = async (req, resp, raw = true) => {
                 Update(u.ID, {
                     signin: `${country}@@${Date.now()}`
                 })
-                .then(x => {
+                .then(async x => {
                     if ( raw )
-                        resolve(user)
+                        resolve(u)
                     else
                         resolve({
                             kind: `oauth`,
-                            u: youser(user)
+                            u: await youser(u)
                         })
                 })
                 .catch(err => {
@@ -118,6 +119,43 @@ export const withSession = async (req, resp, raw = true) => {
                 message: `This is not you. this is us.`
             })
         }
+
+    })
+
+}
+
+export const OAuth = async (req: Request, res: Response) => {
+
+    withSession(req, res, false)
+    .then((u: dynamicObject) => {
+        
+        res.send(u)
+        
+    })
+    .catch((err : any) => {
+        res.send(err)
+    })
+
+}
+
+export const UserInfo = async (uid: string | number, fields?: string[]) : Promise<dynamicObject> => {
+
+    return new Promise((resolve, reject) => {
+
+        uid = uid.isNumber() ? uid : fromHash(uid as string)
+        fields = fields || []
+
+        DB.SELECT(
+            `SELECT ${fields.length > 0 ? fields.join(`, `) : `*`} FROM users WHERE ID=?`,
+            [uid]
+        )
+        .then((user: DBResult) => {
+            resolve(user.row as dynamicObject)
+        })
+        .catch((err: any) => {
+            Logger.error(`[UserInfoError]`, err)
+            reject(err as dynamicObject)
+        })
 
     })
 
@@ -607,4 +645,3 @@ export const Signout = async (req: Request, resp: Response) => {
         resp.send(e)
     })
 }
-

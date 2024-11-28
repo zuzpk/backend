@@ -1,5 +1,6 @@
 import mysql, { Pool, PoolOptions, RowDataPacket, FieldPacket, ResultSetHeader } from 'mysql2/promise'
 import { Logger } from './logger';
+import { DBResult } from './types';
 
 export type selectQueryResult = [RowDataPacket[], FieldPacket[]];
 
@@ -57,12 +58,7 @@ class Database {
         })
     }
 
-    async SELECT(query: string, values: any[]) : Promise<{
-        hasRows: boolean,
-        count: number,
-        row: RowDataPacket | null,
-        rows: RowDataPacket[]
-    }>{
+    async SELECT(query: string, values: any[]) : Promise<DBResult>{
 
         const self = this
 

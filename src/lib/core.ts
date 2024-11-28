@@ -1,11 +1,12 @@
 import Hashids from "hashids"
 import crypto from 'crypto'
-import md5 from "md5"
+import de from "dotenv"
 import { Request } from "express"
 import { dynamicObject } from "./types";
 import nodemailer from 'nodemailer'
 import { Logger } from "./logger";
 
+de.config()
 const encryptionAlgo = 'aes-256-cbc';
 const hashids = new Hashids(process.env.ENCRYPTION_KEY, +process.env.HASHIDS_LENGTH!)
 

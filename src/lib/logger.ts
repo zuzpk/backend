@@ -32,8 +32,8 @@ const accessLogger = winston.createLogger({
     format: winston.format.combine(
         winston.format.timestamp({ format: "YYYY/MM/DD HH:mm:ss" }),
         winston.format.splat(),
-        winston.format.printf(({ message }) => {
-            const { userIP, userAgent, country, method, url, timestamp } = message as dynamicObject
+        winston.format.printf(({ timestamp, message }) => {
+            const { userIP, userAgent, country, method, url } = message as dynamicObject
             return `${country || `Anonymous`} (${userIP || `?`}): [${timestamp}] "${method} ${url}" "${userAgent}"`
         })
     ),

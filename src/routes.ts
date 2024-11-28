@@ -1,5 +1,5 @@
 import { dynamicObject } from "./lib/types";
-import { Recover, RecoverUpdate, Signin, Signout, Signup, Verify } from "./app/user";
+import { OAuth, Recover, RecoverUpdate, Signin, Signout, Signup, Verify } from "./app/user";
 import { Request, Response } from "express";
 import DB from "./lib/db";
 import { Decode, Encode } from "./lib/core";
@@ -15,7 +15,7 @@ const Routes : dynamicObject = {
         },
     },
     Post: {
-        U: { Signup, Verify, Signin, Recover, RecoverUpdate, Signout }
+        U: { OAuth, Signup, Verify, Signin, Recover, RecoverUpdate, Signout }
     }
 }
 

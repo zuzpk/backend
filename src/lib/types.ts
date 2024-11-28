@@ -1,9 +1,18 @@
+import { RowDataPacket } from 'mysql2/promise'
+
 export type dynamicObject = { 
     [x: string] : any 
 }
 
 export type stringObject = { 
     [x: string] : string
+}
+
+export type DBResult = {
+    hasRows: boolean,
+    count: number,
+    row: RowDataPacket | null,
+    rows: RowDataPacket[]
 }
 
 
